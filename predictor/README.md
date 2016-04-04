@@ -3,7 +3,7 @@ This piece of code has functions to train and test data(train(train_data,train_l
 #Results
 Accuracy: 95.1% - 10 fold cross validation
 #Dependencies
-Python 3.5.1
-Numpy pip install numpy
-scikit-learn pip install scikit-learn
+Python 3.5.1 <br>
+Numpy pip install numpy <br> 
+scikit-learn pip install scikit-learn <br>
 
