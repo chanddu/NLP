@@ -3,7 +3,6 @@ import re
 import sys
 import math
 import pickle
-import os.path
 import numpy as np
 from sklearn.cross_validation import KFold
 from sklearn.metrics import accuracy_score,f1_score,recall_score
@@ -27,9 +26,8 @@ def calculate_pos_cond_prob(word):
 def calculate_neg_cond_prob(word):
     return (negwords.count(word)+1)/(len(negwords) + len(set(negwords)))
 
-def generate_words(filename,list):
-    raw = open(filename).read()
-    rawtokens = nltk.word_tokenize(raw)
+def generate_words(line,list):
+    rawtokens = nltk.word_tokenize(line)
     for rw in rawtokens:
         rw = re.sub('[~`^=!@#$,\.\)\(\:\;?\-\+0-9%&*\/_\{\}\[\]<>\"]', ' ', rw)
         rw = re.sub('[\']', '', rw)
@@ -93,18 +91,12 @@ def load_classifier(sentiment):
     return classfier
 
 def separate_data_by_class(data,labels):
-    regex = r'(.+)\s([0,1])\n?'
-    s = ""
-    fpos = open('pos.txt', 'w')
-    fneg = open('neg.txt', 'w')
     for sample in zip(labels,data):
         sentiment,line = sample
         if sentiment == '1':
-            fpos.write(line+'\n')
+            generate_words(line,poswords)
         else:
-            fneg.write(line+'\n')
-    fpos.close()
-    fneg.close()
+            generate_words(line,negwords)
 
 def evaluate(data):
     regex = r'(.+)\s([0,1])\n?'
@@ -126,8 +118,6 @@ def evaluate(data):
 
     k = 0
     acc = []
-    f_score = []
-    recall =[]
     for train_index, test_index in kf:
         train_data,train_labels = X[train_index], y[train_index]
         test_data, test_labels = X[test_index],y[test_index]
@@ -145,8 +135,6 @@ def evaluate(data):
 
 def train(train_data,train_labels):
     separate_data_by_class(train_data,train_labels)
-    generate_words('pos.txt',poswords)
-    generate_words('neg.txt',negwords)
     save_classifier(calculate_pos_probabilities(), calculate_neg_probabilities())
     #print('check')
 
