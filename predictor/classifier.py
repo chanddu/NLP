@@ -147,9 +147,8 @@ def train(train_data,train_labels):
     separate_data_by_class(train_data,train_labels)
     generate_words('pos.txt',poswords)
     generate_words('neg.txt',negwords)
-    if not os.path.isfile('pos_data.pickle'):
-        save_classifier(calculate_pos_probabilities(), calculate_neg_probabilities())
-        print('check')
+    save_classifier(calculate_pos_probabilities(), calculate_neg_probabilities())
+    #print('check')
 
 def test(test_data):
     result = test_classfier(0,0,test_data)
