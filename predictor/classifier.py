@@ -85,22 +85,20 @@ def train(train_data,train_labels):
 
 def predictor(pplus,pminus):
     wordList = re.sub("[^\w]", " ",  sys.argv[1]).split()
-    regex = r'([+-])\s([\s\S]*)\n'
-    reviews = []
-    labels = []
-    with open('data.txt') as f:
-        for line in f:
-            m = re.match(regex,line)
-            labels.append(m.group(1))
-            reviews.append(m.group(2))
-    f.close()
     if not os.path.isfile('pos_data.pickle'):
-        p_d,n_d = train(reviews,labels)
-        save_classifier(p_d,n_d)
-
+        regex = r'([+-])\s([\s\S]*)\n'
+        reviews = []
+        labels = []
+        with open('data.txt') as f:
+            for line in f:
+                m = re.match(regex,line)
+                labels.append(m.group(1))
+                reviews.append(m.group(2))
+            p_d,n_d = train(reviews,labels)
+            save_classifier(p_d,n_d)
+        f.close()
     p_di = load_classifier('pos_data.pickle')
     n_di = load_classifier('neg_data.pickle')
-    separate_data_by_class(reviews,labels)
     for word in wordList:
         if word not in vocabulary:
             p = math.log10(calculate_pos_cond_prob(word))
