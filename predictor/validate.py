@@ -1,23 +1,12 @@
-import nltk
 import re
 import sys
 import math
 import pickle
 import numpy as np
 from sklearn.cross_validation import KFold
-from sklearn.metrics import accuracy_score,f1_score,recall_score
+from sklearn.metrics import accuracy_score
 from classifier import train,calculate_pos_cond_prob,calculate_neg_cond_prob
 
-stopwords = []
-vocabulary = []
-
-for sline in open("stopwords.txt"):
-    for sword in sline.split():
-        stopwords.append(sword)
-
-for word in open('vocabulary.txt'):
-    word = word.strip()
-    vocabulary.append(word)
 
 def test_classfier(pplus,pminus,test_data,p_dict,n_dict):
     answer = []
@@ -64,7 +53,7 @@ def evaluate(data):
     X = np.array(reviews)
     y = np.array(labels)
 
-    kf = KFold(1000,n_folds=10)
+    kf = KFold(1140,n_folds=10)
     train_data = []
     test_data = []
     test_labels = []
