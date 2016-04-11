@@ -13,6 +13,9 @@ def getreviewNlabel(filename):
 
 def getVocab(filename):
 	vocab = []
+	vocab_len = 0
 	for word in open(filename):
 		vocab.append(word.strip())
-	return vocab
+		if(len(word.split())==1):
+			vocab_len = vocab_len+1
+	return vocab,vocab_len
