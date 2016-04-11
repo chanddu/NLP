@@ -17,7 +17,7 @@ def genbigrams(wordList):
 	bigramsList = list(bigrams(wordList))
 	b = Counter(bigramsList)
 	for w in b:
-		if b[w]>=3:
+		if b[w]>=4:
 			print(w[0] + ' ' + w[1])
 
 def main():

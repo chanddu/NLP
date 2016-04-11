@@ -19,17 +19,22 @@ def test_classfier(test_data,p_dict,n_dict,u_p,u_n,vocabulary):
         for word in bigramList:
             bigram = word
             word = word[0] + ' ' + word[1]
-            if word in n_dict and word in p_dict:
+            if word in vocabulary:
                 pminus = pminus + n_dict[word]
                 pplus = pplus + p_dict[word]
             else:
-                if bigram[0] in n_dict and bigram[0] in p_dict:
-                    if n_dict[bigram[0]]>0 and p_dict[bigram[0]]>0:
-                        pminus = pminus + n_dict[bigram[0]]
-                        pplus = pplus + p_dict[bigram[0]]
+                if bigram[0] in p_dict and bigram[1] in p_dict:
+                    pplus = pplus + p_dict[bigram[0]] + p_dict[bigram[1]]
+                    pminus = pminus + n_dict[bigram[0]] + n_dict[bigram[1]]
+                elif bigram[0] in p_dict and bigram[1] not in p_dict:
+                    pplus = pplus + p_dict[bigram[0]] + u_p
+                    pminus = pminus + n_dict[bigram[0]] + u_n
+                elif bigram[0] not in p_dict and bigram[1] in p_dict:
+                    pplus = pplus + p_dict[bigram[1]] + u_p
+                    pminus = pminus + n_dict[bigram[1]] + u_n
                 else:
-                    pminus = pminus + u_n
-                    pplus = pplus + u_p
+                    pplus = pplus + u_p + u_p
+                    pminus = pminus + u_n + u_n
         if pplus>=pminus:
             answer.append('+')
         else:

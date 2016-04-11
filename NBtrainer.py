@@ -31,6 +31,7 @@ def calculate_probabilities(poswords,negwords,posbigrams,negbigrams,vocab_len,vo
     neg_probability_dictionary = {}
     for word in vocabulary:
         if len(word.split())==1:
+            #print(calculate_pos_cond_prob(word,poswords,pos_len,vocab_len))
             pos_probability_dictionary[word] = math.log10(calculate_pos_cond_prob(word,poswords,pos_len,vocab_len))
             neg_probability_dictionary[word] = math.log10(calculate_neg_cond_prob(word,negwords,neg_len,vocab_len))
         else:
@@ -41,17 +42,17 @@ def calculate_probabilities(poswords,negwords,posbigrams,negbigrams,vocab_len,vo
 def genbigramList(b):
     blist = []
     for bigram in b:
-        if b[bigram]>=3:
-            blist.append(bigram[0] + ' ' + bigram[1])
+        blist.append(bigram[0] + ' ' + bigram[1])
     return blist
 def changeUnigramCounts(poswords,negwords,posbigrams,negbigrams,vocabulary):
-    for word in vocabulary:
-        w = word.split()
-        if len(w)!=1:
+    for word in posbigrams:
+        if poswords[word[0]]>0 and poswords[word[1]]>0:
             poswords[w[0]] -= posbigrams[word]
             poswords[w[1]] -= posbigrams[word]
-            negwords[w[0]] -= negwords[word]
-            negwords[w[1]] -= negwords[word]
+    for word in negbigrams:
+        if negwords[word[0]]>0 and negwords[word[1]]>0:
+            negwords[w[0]] -= negbigrams[word]
+            negwords[w[1]] -= negbigrams[word]
     return poswords,negwords
 
 def separate_data_by_class(train_data,labels):
