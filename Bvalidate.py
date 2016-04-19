@@ -12,7 +12,7 @@ from nltk import bigrams
 def test_classfier(test_data,p_dict,n_dict,u_p,u_n,vocabulary):
     answer = []
     for line in test_data:
-        wordList = clean_review(line)
+        wordList = line.split()
         bigramList = list(bigrams(wordList))
         pplus = math.log10(0.5)
         pminus = math.log10(0.5)
@@ -23,18 +23,12 @@ def test_classfier(test_data,p_dict,n_dict,u_p,u_n,vocabulary):
                 pminus = pminus + n_dict[word]
                 pplus = pplus + p_dict[word]
             else:
-                if bigram[0] in p_dict and bigram[1] in p_dict:
-                    pplus = pplus + p_dict[bigram[0]] + p_dict[bigram[1]]
-                    pminus = pminus + n_dict[bigram[0]] + n_dict[bigram[1]]
-                elif bigram[0] in p_dict and bigram[1] not in p_dict:
-                    pplus = pplus + p_dict[bigram[0]] + u_p
-                    pminus = pminus + n_dict[bigram[0]] + u_n
-                elif bigram[0] not in p_dict and bigram[1] in p_dict:
-                    pplus = pplus + p_dict[bigram[1]] + u_p
-                    pminus = pminus + n_dict[bigram[1]] + u_n
+                if bigram[1] in vocabulary:
+                    pplus = pplus + p_dict[bigram[1]] 
+                    pminus = pminus + n_dict[bigram[1]]
                 else:
-                    pplus = pplus + u_p + u_p
-                    pminus = pminus + u_n + u_n
+                    pplus = pplus + u_p
+                    pminus = pminus + u_n
         if pplus>=pminus:
             answer.append('+')
         else:
@@ -44,7 +38,7 @@ def test_classfier(test_data,p_dict,n_dict,u_p,u_n,vocabulary):
 def evaluate(data):
     vocabulary,vocab_len = getVocab('cleanData/vocabulary.txt')
 
-    labels,reviews = getreviewNlabel('cleanData/data.txt')
+    labels,reviews = getreviewNlabel('cleanData/datac.txt')
     X = np.array(reviews)
     y = np.array(labels)
 

@@ -11,7 +11,7 @@ from lib.getlib import getreviewNlabel,getVocab
 def test_classfier(test_data,p_dict,n_dict,u_p,u_n,vocabulary):
     answer = []
     for line in test_data:
-        wordList = clean_review(line)
+        wordList = line.split()
         pplus = math.log10(0.5)
         pminus = math.log10(0.5)
         for word in wordList:
@@ -30,7 +30,7 @@ def test_classfier(test_data,p_dict,n_dict,u_p,u_n,vocabulary):
 def evaluate(data):
     vocabulary,vocab_len = getVocab('cleanData/vocabulary.txt')
 
-    labels,reviews = getreviewNlabel('cleanData/data.txt')
+    labels,reviews = getreviewNlabel('cleanData/datac.txt')
     X = np.array(reviews)
     y = np.array(labels)
 

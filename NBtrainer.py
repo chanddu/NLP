@@ -1,5 +1,4 @@
 import math
-from cleanData.cleanlib import clean_review
 
 def train(train_data,train_labels,vocabulary):
     poswords,negwords = separate_data_by_class(train_data,train_labels)
@@ -31,9 +30,9 @@ def separate_data_by_class(train_data,labels):
     for sample in zip(labels,train_data):
         sentiment,review = sample
         if sentiment == '+':
-            poswords = poswords + clean_review(review)
+            poswords = poswords + review.split()
         else:
-            negwords = negwords + clean_review(review)
+            negwords = negwords + review.split()
 
     return poswords,negwords
 

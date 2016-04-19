@@ -6,7 +6,7 @@ import sys
 def genvocab(filename):
 	wordList = []
 	for line in open(filename):
-		wordList = wordList + clean_review(line)
+		wordList = wordList + line.split()[1:]
 	c = Counter(wordList)
 	for w in c:
 		if c[w]>=2:

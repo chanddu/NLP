@@ -7,7 +7,7 @@ from lib.getlib import getreviewNlabel,getVocab
 
 def genModel():
 	vocabulary,vocab_len = getVocab('cleanData/vocabulary.txt')
-	labels,reviews = getreviewNlabel('cleanData/data.txt')
+	labels,reviews = getreviewNlabel('cleanData/datac.txt')
 	pos_dict,neg_dict,u_p,u_n = train(reviews,labels,vocabulary)
 	t_m = pos_dict,neg_dict,u_p,u_n,vocabulary
 	saveModel(t_m)
