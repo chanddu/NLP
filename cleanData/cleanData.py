@@ -17,7 +17,7 @@ def cleanData(i_file,o_file):
 	f_o.close()
 
 def main():
-    i_file     = 'data.txt'
+    i_file     = 'dataa.txt'
     o_file    = 'datac.txt'
     cleanData(i_file,o_file)
 

@@ -81,8 +81,10 @@ def genbigramList(b):
     posbigrams = []
     negbigrams = []
     for sample in zip(labels,train_data):
+        words = []
         sentiment,review = sample
-        words = review.split()
+        words.append('*')
+        words += review.split()
         bigramsList = list(bigrams(words))
         p_words,n_words,p_bigrams,n_bigrams = genbigramNuniGramList(bigramsList,words,vocabulary,sentiment)
         if sentiment == '+':
@@ -100,11 +102,12 @@ def separate_data_by_class(train_data,labels,vocabulary):
     posbigrams = []
     negbigrams = []
     for sample in zip(labels,train_data):
+        #words = []
         sentiment,review = sample
+        #words.append('*')
         words = review.split()
         bigramsList = list(bigrams(words))
-        b = Counter(bigramsList)
-        bgrams = genbigramList(b)
+        bgrams = genbigramList(bigramsList)
         if sentiment == '+':
             poswords = poswords + words
             posbigrams = posbigrams + bgrams
